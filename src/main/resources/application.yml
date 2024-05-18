@@ -1,0 +1,88 @@
+spring:
+  application:
+    name: Jamia Akbira
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      fail-on-empty-beans: false
+      close-closeable: true
+      flush-after-write-value: true
+      write-date-keys-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+        hibernate:
+            format_sql: true
+            use_sql_comments: true
+            jdbc:
+                time_zone: UTC
+
+  sql:
+    init:
+      mode: never
+      continue-on-error: false
+      schema-locations: classpath:data/schema.sql
+      data-locations: classpath:data/data.sql
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1MB
+      max-request-size: 10MB
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        mime:
+          charset: UTF
+        smtp:
+          write:
+            timeout: 30000
+          connection:
+            timeout: 30000
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    verification:
+      host: ${MAIL_VERIFICATION_HOST}
+
+server:
+  port: ${CONTAINER_PORT:8080}
+  error:
+    path: /user/error
+    whitelabel:
+      enabled: false
+management:
+  endpoints:
+    web:
+      base-path: /jamia-akbira
+      exposure:
+        include: health,info
+  info:
+    env:
+      enabled: true
+info:
+  app:
+    name: ${spring.application.name}
+    description: Jamia Akbira
+    version: 1.0.0
+    build:
+      version: 1.0.0
+security:
+  jwt:
+    expiration: ${JWT_EXPIRATION}
+    secret: ${JWT_SECRET}
