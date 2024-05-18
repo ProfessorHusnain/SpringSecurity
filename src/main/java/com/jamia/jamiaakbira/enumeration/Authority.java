@@ -1,10 +1,6 @@
 package com.jamia.jamiaakbira.enumeration;
 
-import com.jamia.jamiaakbira.constant.Constant;
-
-import static com.jamia.jamiaakbira.constant.Constant.USER_AUTHORITIES;
-import static com.jamia.jamiaakbira.constant.Constant.ADMIN_AUTHORITIES;
-import static com.jamia.jamiaakbira.constant.Constant.SUPER_ADMIN_AUTHORITIES;
+import static com.jamia.jamiaakbira.constant.Constant.*;
 
 public enum Authority {
     USER(USER_AUTHORITIES),

@@ -5,7 +5,6 @@ import com.jamia.jamiaakbira.domain.Response;
 import com.jamia.jamiaakbira.exception.NotificationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -20,7 +19,6 @@ import java.util.function.BiFunction;
 import static com.jamia.jamiaakbira.constant.Constant.EMPTY;
 import static java.time.LocalTime.now;
 import static java.util.Collections.emptyMap;
-import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCause;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMessage;
 
 public class RequestUtils {

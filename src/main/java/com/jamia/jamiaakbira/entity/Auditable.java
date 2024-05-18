@@ -12,6 +12,7 @@ import org.springframework.util.AlternativeJdkIdGenerator;
 
 import java.time.LocalDateTime;
 
+
 import static com.jamia.jamiaakbira.domain.RequestContext.getUserId;
 import static java.time.LocalDateTime.now;
 
@@ -44,10 +45,10 @@ public abstract class Auditable {
 
     @PrePersist
     public void prePersist() throws EntityException {
-        var userId = 0L;//getUserId();
-        /*if (userId == null) {
+        var userId = getUserId();
+        if (userId == null) {
             throw new EntityException("cannot persist entity without user ID in the Request Context of this thread.");
-        }*/
+        }
         setCreatedAt(now());
         setCreatedBy(userId);
         setUpdatedAt(now());
@@ -56,10 +57,10 @@ public abstract class Auditable {
 
     @PreUpdate
     public void beforeUpdate() throws EntityException {
-        var userId =0L; //getUserId();
-        /*if (userId == null) {
+        var userId =getUserId();
+        if (userId == null) {
             throw new EntityException("cannot update entity without user ID in the Request Context of this thread.");
-        }*/
+        }
         setUpdatedAt(now());
         setUpdatedBy(userId);
     }

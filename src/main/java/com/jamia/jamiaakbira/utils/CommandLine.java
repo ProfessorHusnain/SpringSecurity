@@ -1,8 +1,5 @@
 package com.jamia.jamiaakbira.utils;
 
-import com.jamia.jamiaakbira.domain.RequestContext;
-import com.jamia.jamiaakbira.entity.Role;
-import com.jamia.jamiaakbira.enumeration.Authority;
 import com.jamia.jamiaakbira.repository.RoleRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

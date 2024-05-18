@@ -1,11 +1,7 @@
 package com.jamia.jamiaakbira.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jamia.jamiaakbira.entity.Role;
-import jakarta.persistence.*;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 @Data
 public class AuthenticatedUser {

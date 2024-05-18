@@ -17,7 +17,6 @@ import com.jamia.jamiaakbira.repository.CredentialRepository;
 import com.jamia.jamiaakbira.repository.RoleRepository;
 import com.jamia.jamiaakbira.repository.UserRepository;
 import com.jamia.jamiaakbira.service.UserService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;

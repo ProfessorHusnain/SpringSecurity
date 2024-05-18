@@ -1,6 +1,5 @@
 package com.jamia.jamiaakbira.security;
 
-import com.jamia.jamiaakbira.domain.ApplicationUsernamePasswordAuthenticationToken;
 import com.jamia.jamiaakbira.service.JwtService;
 import com.jamia.jamiaakbira.service.UserService;
 import lombok.RequiredArgsConstructor;

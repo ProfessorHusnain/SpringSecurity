@@ -13,7 +13,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -23,14 +22,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 import static com.jamia.jamiaakbira.domain.ApplicationUsernamePasswordAuthenticationToken.unauthenticated;
 import static com.jamia.jamiaakbira.enumeration.LoginType.LOGIN_ATTEMPT;
 import static com.jamia.jamiaakbira.enumeration.LoginType.LOGIN_SUCCESS;
 import static com.jamia.jamiaakbira.utils.RequestUtils.getResponse;
 import static com.jamia.jamiaakbira.utils.RequestUtils.handleErrorResponse;
-import static org.springframework.http.HttpMethod.POST;
 
 // todo: filter  not working error no static resource found
 

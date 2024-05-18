@@ -1,6 +1,5 @@
 package com.jamia.jamiaakbira.constant;
 
-import jakarta.servlet.http.Cookie;
 
 public class Constant {
     public static final String USER_NOT_FOUND = "User not found";

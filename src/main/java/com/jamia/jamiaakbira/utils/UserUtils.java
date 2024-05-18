@@ -1,6 +1,5 @@
 package com.jamia.jamiaakbira.utils;
 
-import com.jamia.jamiaakbira.constant.Constant;
 import com.jamia.jamiaakbira.dto.AuthenticatedUser;
 import com.jamia.jamiaakbira.entity.Credential;
 import com.jamia.jamiaakbira.entity.Role;
