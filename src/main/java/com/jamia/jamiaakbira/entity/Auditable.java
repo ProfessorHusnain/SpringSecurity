@@ -40,8 +40,6 @@ public abstract class Auditable {
     @CreatedDate
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
-    private boolean deleted;
-
 
     @PrePersist
     public void prePersist() throws EntityException {

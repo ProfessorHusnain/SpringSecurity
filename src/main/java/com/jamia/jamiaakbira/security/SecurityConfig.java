@@ -23,20 +23,21 @@ public class SecurityConfig {
     private final AuthenticationManager manager;
     private final UserService userService;
     private final JwtService jwtService;
+    private final OncePerRequestSecurityFilter oncePerRequestSecurityFilter;
+
     @Bean
     @Order(1)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         return http
-
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/user/**", "/authenticate/**").permitAll()
+                        .requestMatchers("/user/verify/**", "/authenticate/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).addFilterAt(new AuthenticationFilter(manager,userService,jwtService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(oncePerRequestSecurityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

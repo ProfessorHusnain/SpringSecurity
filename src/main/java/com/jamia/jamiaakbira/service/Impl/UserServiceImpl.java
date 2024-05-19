@@ -5,9 +5,8 @@ import com.jamia.jamiaakbira.domain.RequestContext;
 import com.jamia.jamiaakbira.dto.AuthenticatedUser;
 import com.jamia.jamiaakbira.entity.Confirmation;
 import com.jamia.jamiaakbira.entity.Credential;
-import com.jamia.jamiaakbira.entity.Role;
 import com.jamia.jamiaakbira.entity.User;
-import com.jamia.jamiaakbira.enumeration.Authority;
+import com.jamia.jamiaakbira.enumeration.Roles;
 import com.jamia.jamiaakbira.enumeration.EventType;
 import com.jamia.jamiaakbira.enumeration.LoginType;
 import com.jamia.jamiaakbira.event.UserEvent;
@@ -52,10 +51,11 @@ public class UserServiceImpl implements UserService {
         Confirmation confirmation = new Confirmation(user); // todo: manage logic for phone number verification when needed
         confirmationRepository.save(confirmation);
         publisher.publishEvent(new UserEvent(user, EventType.REGISTRATION, Map.of("key", confirmation.getKey())));
+        RequestContext.start();
     }
 
     @Override
-    public Role getRole(String name) {
+    public com.jamia.jamiaakbira.entity.Role getRole(String name) {
         return roleRepository.findByNameIgnoreCase(name)
                 .orElseThrow(() -> new NotificationException("Role Not Found")); // todo: create exception class for the roles
     }
@@ -131,7 +131,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private User createNewUser(String firstName, String lastName, String email) {
-        var role = getRole(Authority.USER.name());
+        var role = getRole(Roles.USER.name());
         return createNewUserObj(firstName, lastName, email, role);
     }
 

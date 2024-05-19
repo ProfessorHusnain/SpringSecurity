@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -23,6 +24,7 @@ public class UserResource {
     private final UserService userService;
 
     @PostMapping("/register")
+    @PreAuthorize("hasAuthority('user:create')")
     public ResponseEntity<Response> saveUser(@RequestBody @Valid UserRequest user, HttpServletRequest request) {
         userService.createUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
         return ResponseEntity.created(getUri())

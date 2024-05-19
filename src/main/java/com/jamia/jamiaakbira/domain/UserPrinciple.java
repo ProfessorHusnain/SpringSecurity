@@ -18,7 +18,7 @@ public class UserPrinciple implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList(user.getAuthorities());
+        return AuthorityUtils.commaSeparatedStringToAuthorityList(user.getAuthorities().toString());
     }
 
     @Override

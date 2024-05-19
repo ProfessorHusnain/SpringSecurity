@@ -1,9 +1,10 @@
 package com.jamia.jamiaakbira.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_DEFAULT;
 
@@ -16,9 +17,17 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_DEFAULT;
 @Entity
 @Table(name = "roles")
 @JsonInclude(NON_DEFAULT)
-public class Role extends Auditable{
+public class Role extends Auditable {
     private String name;
     private String description;
-    private String authorities; // todo: create the jpa entity for authorities
-    private boolean active;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "role_permissions",
+            joinColumns = @JoinColumn(
+                    name = "role_id",
+                    referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "permission_id",
+                    referencedColumnName = "id")
+    )
+    private Set<Permission> permissions;
 }

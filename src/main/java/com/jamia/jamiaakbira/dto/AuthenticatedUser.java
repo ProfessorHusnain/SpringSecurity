@@ -3,6 +3,8 @@ package com.jamia.jamiaakbira.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 public class AuthenticatedUser {
     @JsonIgnore
@@ -20,7 +22,7 @@ public class AuthenticatedUser {
     private String createdAt;
     private String updatedAt;
     private String role;
-    private String authorities;
+    private Set<String> authorities;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean enabled;

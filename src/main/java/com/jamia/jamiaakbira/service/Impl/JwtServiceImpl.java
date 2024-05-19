@@ -165,7 +165,7 @@ public class JwtServiceImpl extends JwtConfiguration implements JwtService {
         return tokenFunction.apply(
                 TokenData.builder()
                         .valid(isTokenValid.apply(token))
-                        .authorities(authorities.apply(token))
+                        //.authorities(authorities.apply(token))
                         .claims(parseClaims.apply(token))
                         .user(userService.getAuthenticatedUserByUserId(subject.apply(token)))
                         .build()
