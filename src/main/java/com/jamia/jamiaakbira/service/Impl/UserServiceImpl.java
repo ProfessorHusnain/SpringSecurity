@@ -2,15 +2,14 @@ package com.jamia.jamiaakbira.service.Impl;
 
 import com.jamia.jamiaakbira.cache.CacheStore;
 import com.jamia.jamiaakbira.domain.RequestContext;
-import com.jamia.jamiaakbira.domain.UserPrinciple;
 import com.jamia.jamiaakbira.dto.AuthenticatedUser;
 import com.jamia.jamiaakbira.entity.Confirmation;
 import com.jamia.jamiaakbira.entity.Credential;
 import com.jamia.jamiaakbira.entity.Role;
 import com.jamia.jamiaakbira.entity.User;
-import com.jamia.jamiaakbira.enumeration.Roles;
 import com.jamia.jamiaakbira.enumeration.EventType;
 import com.jamia.jamiaakbira.enumeration.LoginType;
+import com.jamia.jamiaakbira.enumeration.Roles;
 import com.jamia.jamiaakbira.event.UserEvent;
 import com.jamia.jamiaakbira.exception.NotificationException;
 import com.jamia.jamiaakbira.repository.ConfirmationRepository;
