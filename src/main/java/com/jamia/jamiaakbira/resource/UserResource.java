@@ -1,6 +1,7 @@
 package com.jamia.jamiaakbira.resource;
 
 import com.jamia.jamiaakbira.domain.Response;
+import com.jamia.jamiaakbira.dto.AuthenticatedUser;
 import com.jamia.jamiaakbira.dtorequest.UserRequest;
 import com.jamia.jamiaakbira.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Map;
 
 import static com.jamia.jamiaakbira.utils.RequestUtils.getResponse;
 import static java.util.Collections.emptyMap;
@@ -29,6 +31,14 @@ public class UserResource {
         userService.createUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
         return ResponseEntity.created(getUri())
                 .body(getResponse(request, emptyMap(), "Account created. Check your email for enable your account.", CREATED));
+    }
+
+    @GetMapping("/profile")
+    @PreAuthorize("hasAuthority('profile:view')")
+    public ResponseEntity<Response> getUserProfile(HttpServletRequest request) {
+        AuthenticatedUser authenticatedUser = userService.authenticatedUserMetaData();
+        return ResponseEntity.ok()
+                .body(getResponse(request, Map.of("user",authenticatedUser), "User profile retrieved", OK));
     }
 
     @GetMapping("/verify/account")

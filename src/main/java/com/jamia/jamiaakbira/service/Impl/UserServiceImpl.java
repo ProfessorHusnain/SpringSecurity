@@ -2,9 +2,11 @@ package com.jamia.jamiaakbira.service.Impl;
 
 import com.jamia.jamiaakbira.cache.CacheStore;
 import com.jamia.jamiaakbira.domain.RequestContext;
+import com.jamia.jamiaakbira.domain.UserPrinciple;
 import com.jamia.jamiaakbira.dto.AuthenticatedUser;
 import com.jamia.jamiaakbira.entity.Confirmation;
 import com.jamia.jamiaakbira.entity.Credential;
+import com.jamia.jamiaakbira.entity.Role;
 import com.jamia.jamiaakbira.entity.User;
 import com.jamia.jamiaakbira.enumeration.Roles;
 import com.jamia.jamiaakbira.enumeration.EventType;
@@ -19,6 +21,8 @@ import com.jamia.jamiaakbira.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public com.jamia.jamiaakbira.entity.Role getRole(String name) {
+    public Role getRole(String name) {
         return roleRepository.findByNameIgnoreCase(name)
                 .orElseThrow(() -> new NotificationException("Role Not Found")); // todo: create exception class for the roles
     }
@@ -102,7 +106,7 @@ public class UserServiceImpl implements UserService {
     public AuthenticatedUser getAuthenticatedUserByUserId(String userId) {
         var user = userRepository.findUserByUserId(userId)
                 .orElseThrow(() -> new NotificationException(USER_NOT_FOUND));
-        return fromUserEntity(user,user.getRole(),getCredentialsById(user.getId()));
+        return fromUserEntity(user, user.getRole(), getCredentialsById(user.getId()));
     }
 
     @Override
@@ -110,7 +114,7 @@ public class UserServiceImpl implements UserService {
         // todo: implement the logic for the authentication for different type of login
         // todo: take look on exception class
         User user = userRepository.findByEmailIgnoreCase(username).orElseThrow(() -> new NotificationException(USER_NOT_FOUND));
-        return fromUserEntity(user,user.getRole(),getCredentialsById(user.getId()));
+        return fromUserEntity(user, user.getRole(), getCredentialsById(user.getId()));
     }
 
     @Override
@@ -119,13 +123,23 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotificationException("Credential Not Found")); //todo: excpetion
     }
 
+    @Override
+    public AuthenticatedUser authenticatedUserMetaData() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return  (AuthenticatedUser) authentication.getPrincipal();
+        } else {
+            throw new NotificationException("User Not Authenticated");
+        }
+    }
+
     // todo: take look at the exception classes
     private final Function<String, Confirmation> getConfirmationByKey = key -> new Confirmation();/*confirmationRepository.findByKey(key)
             .orElseThrow(() -> new NotificationException("Confirmation Key Not Found"));*/
 
-  /*  private final Function<String, User> getUserByEmail = email -> userRepository.findByEmailIgnoreCase(email)
-            .orElseThrow(() -> new NotificationException("User Not Found"));*/
-    private User getUserByEmail(String email){
+    /*  private final Function<String, User> getUserByEmail = email -> userRepository.findByEmailIgnoreCase(email)
+              .orElseThrow(() -> new NotificationException("User Not Found"));*/
+    private User getUserByEmail(String email) {
         return userRepository.findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new NotificationException("User Not Found"));
     }

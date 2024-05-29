@@ -16,4 +16,6 @@ public interface UserService {
     AuthenticatedUser getUserForAuthentication(String username);
 
     Credential getCredentialsById(Long id);
+
+    AuthenticatedUser authenticatedUserMetaData();
 }

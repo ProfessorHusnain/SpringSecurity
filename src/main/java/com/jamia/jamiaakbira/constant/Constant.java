@@ -25,6 +25,9 @@ public class Constant {
     public static final String APPLICATION_LLC = "jamia-akbira";
     public static final String TYPE = "typ";
     public static final String JWT_TYPE = "JWT";
+    public static final String RESPONSE_DATA_KEY = "data";
+    public static final String AUTHORIZATION_HEADER_PREFIX = "Bearer";
+
     public static final int NINETY_DAY = 90;
     public static final int PASSWORD_STRENGTH = 12;
 

@@ -13,6 +13,7 @@ import java.util.function.Function;
 public interface JwtService {
     String generateToken(AuthenticatedUser user, Function<Token,String> tokenFunction);
     Optional<String> extractToken(HttpServletRequest request,String tokenType);
+    Optional<String> extractCookie(HttpServletRequest request,String tokenType);
 
     void addCookies(HttpServletResponse response, AuthenticatedUser user, TokenType tokenType);
     <T> T getTokenData(String token,Function<TokenData,T> tokenFunction);

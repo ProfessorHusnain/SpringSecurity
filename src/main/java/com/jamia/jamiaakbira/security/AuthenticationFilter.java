@@ -86,9 +86,14 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
         out.flush();
     }
     private Response sendResponse(HttpServletRequest request, HttpServletResponse response, AuthenticatedUser user) {
-        jwtService.addCookies(response, user, TokenType.ACCESS);
-        jwtService.addCookies(response, user, TokenType.REFRESH);
-        return getResponse(request, Map.of("user",user),"Login successful",HttpStatus.OK);
+        //jwtService.addCookies(response, user, TokenType.ACCESS);;
+        //jwtService.addCookies(response, user, TokenType.REFRESH);
+        Token tokens= Token.builder()
+                .access(jwtService.generateToken(user, Token::getAccess))
+                .refresh(jwtService.generateToken(user, Token::getRefresh))
+                .build();
+
+        return getResponse(request, Map.of("tokens",tokens),"Login successful",HttpStatus.OK);
     }
     private Response sendQRCode(HttpServletRequest request, AuthenticatedUser user) {
 

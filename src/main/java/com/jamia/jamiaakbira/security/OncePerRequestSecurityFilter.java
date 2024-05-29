@@ -7,10 +7,10 @@ import com.jamia.jamiaakbira.enumeration.TokenType;
 import com.jamia.jamiaakbira.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,6 +21,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class OncePerRequestSecurityFilter extends OncePerRequestFilter {
+
     private final JwtService jwtService;
 
     @Override
@@ -40,7 +41,8 @@ public class OncePerRequestSecurityFilter extends OncePerRequestFilter {
             return;
         }
         ApplicationUsernamePasswordAuthenticationToken authentication
-                = new ApplicationUsernamePasswordAuthenticationToken(data.getUser(), data.getAuthorities());
+                = new ApplicationUsernamePasswordAuthenticationToken(data.getUser(),
+                AuthorityUtils.commaSeparatedStringToAuthorityList(data.getUser().getAuthorities().toString()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         RequestContext.setUserId(data.getUser().getId());
         filterChain.doFilter(request, response);

@@ -18,7 +18,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -34,13 +33,14 @@ import static java.time.Instant.now;
 import static java.util.Arrays.stream;
 import static java.util.Optional.empty;
 import static org.apache.tomcat.util.http.SameSiteCookies.NONE;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.security.core.authority.AuthorityUtils.commaSeparatedStringToAuthorityList;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class JwtServiceImpl extends JwtConfiguration implements JwtService {
-    @Autowired
+
     private final UserService userService;
 
     private final Supplier<SecretKey> key = () -> Keys.hmacShaKeyFor(Decoders.BASE64.decode(getSecret()));
@@ -56,16 +56,14 @@ public class JwtServiceImpl extends JwtConfiguration implements JwtService {
     }
 
     private final BiFunction<HttpServletRequest, String, Optional<String>> extractToken =
-            (request, cookieName) ->
-                    Optional.of(
-                            stream(
-                                    request.getCookies() == null ?
-                                            new Cookie[]{new Cookie(EMPTY_VALUE, EMPTY_VALUE)} :
-                                            request.getCookies()
-                            ).filter(cookie -> Objects.equals(cookie.getName(), cookieName))
-                                    .map(Cookie::getValue)
-                                    .findAny()
-                    ).orElse(empty());
+            (request, cookieName) -> {
+                String header = request.getHeader(AUTHORIZATION);
+                if (header == null || !header.startsWith(AUTHORIZATION_HEADER_PREFIX)) {
+                    return Optional.empty();
+                }
+
+                return Optional.of(header.substring(AUTHORIZATION_HEADER_PREFIX.length() + 1));
+            };
     private final BiFunction<HttpServletRequest, String, Optional<Cookie>> extractCookie =
             (request, cookieName) ->
                     Optional.of(
@@ -76,7 +74,17 @@ public class JwtServiceImpl extends JwtConfiguration implements JwtService {
                             ).filter(cookie -> Objects.equals(cookie.getName(), cookieName))
                                     .findAny()
                     ).orElse(empty());
-
+    private final BiFunction<HttpServletRequest, String, Optional<String>> extractCookieValue =
+            (request, cookieName) ->
+                    Optional.of(
+                            stream(
+                                    request.getCookies() == null ?
+                                            new Cookie[]{new Cookie(EMPTY_VALUE, EMPTY_VALUE)} :
+                                            request.getCookies()
+                            ).filter(cookie -> Objects.equals(cookie.getName(), cookieName))
+                                    .map(Cookie::getValue)
+                                    .findAny()
+                    ).orElse(empty());
     private final Supplier<JwtBuilder> builder =
             () ->
                     Jwts.builder()
@@ -153,6 +161,11 @@ public class JwtServiceImpl extends JwtConfiguration implements JwtService {
     @Override
     public Optional<String> extractToken(HttpServletRequest request, String tokenType) {
         return extractToken.apply(request, tokenType);
+    }
+
+    @Override
+    public Optional<String> extractCookie(HttpServletRequest request, String tokenType) {
+        return extractCookieValue.apply(request, tokenType);
     }
 
     @Override
