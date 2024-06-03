@@ -1,8 +1,8 @@
 spring:
   application:
-    name: Jamia Akbira
+    name: ${APPLICATION_NAME}
   profiles:
-    active: ${ACTIVE_PROFILE:dev}
+    active: ${ACTIVE_PROFILE}
   jackson:
     default-property-inclusion: non_null
     serialization:
@@ -61,7 +61,7 @@ spring:
       host: ${MAIL_VERIFICATION_HOST}
 
 server:
-  port: ${CONTAINER_PORT:8080}
+  port: ${CONTAINER_PORT}
   error:
     path: /user/error
     whitelabel:
@@ -69,7 +69,7 @@ server:
 management:
   endpoints:
     web:
-      base-path: /jamia-akbira
+      base-path: /spring-security
       exposure:
         include: health,info
   info:
@@ -78,7 +78,7 @@ management:
 info:
   app:
     name: ${spring.application.name}
-    description: Jamia Akbira
+    description: spring security boots up
     version: 1.0.0
     build:
       version: 1.0.0
@@ -86,3 +86,6 @@ security:
   jwt:
     expiration: ${JWT_EXPIRATION}
     secret: ${JWT_SECRET}
+
+
+

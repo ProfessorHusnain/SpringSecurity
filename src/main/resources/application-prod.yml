@@ -4,7 +4,7 @@ MYSQL_DATABASE: ${ MYSQL_DATABASE }
 MYSQL_USER: ${ MYSQL_USER }
 MYSQL_PASSWORD: ${ MYSQL_PASSWORD }
 
-ACTIVE_PROFILE: dev
+ACTIVE_PROFILE: prod
 CONTAINER_PORT: 8080
 APPLICATION_NAME: Spring Security
 
@@ -29,11 +29,11 @@ logging:
   level:
     org:
       springframework:
-        data: DEBUG
+        data: ERROR
         jdbc:
           core:
-            jdbcTemplate: DEBUG
+            jdbcTemplate: ERROR
       hibernate:
-        SQL: DEBUG
+        SQL: ERROR
         type:
-          descriptor.sql.BasicBinder: TRACE
+          descriptor.sql.BasicBinder: ERROR
