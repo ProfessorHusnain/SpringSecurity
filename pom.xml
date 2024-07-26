@@ -8,11 +8,11 @@
         <version>3.2.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.jamia</groupId>
-    <artifactId>jamia-akbira</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>jamia-akbira</name>
-    <description>jamia-akbira</description>
+    <groupId>com.security</groupId>
+    <artifactId>spirng-security</artifactId>
+    <version>0.0.1</version>
+    <name>spirng-security</name>
+    <description>This app should use for boots start up for new application.</description>
     <properties>
         <java.version>22</java.version>
     </properties>
